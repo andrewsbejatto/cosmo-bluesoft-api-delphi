@@ -14,7 +14,7 @@ uses cosmo.api, cosmo.classes;
     LProd :=
       TCosmoApi
         .New
-        .Token('MT5ji0bEPr26AdHQcDrvUQ')
+        .Token('you token')
         .Gtins('7896084101183');
 
     if LProd is TProductClass then
