@@ -7,20 +7,20 @@ Criado por Andrews Bejatto.
 
 Como utilizar:
 
-**uses cosmo.api, cosmo.classes;**
+**uses cosmos.api, cosmos.classes;**
 
-	  var LProd : TObject;
+	  var LObj: TGpcProductsClass;
 	  try
-	    LProd :=
+	    LObj :=
 	      TCosmoApi
 	        .New
 	        .Token('you token')
-	        .Gtins('7896084101183');
+	        .Gtin('7896084101183');
 
-	    if LProd is TProductClass then
-		  Memo1.Lines.Add(TProductClass(LProd).description)
+	    if not Assigned(LObj.Error) then
+		  Memo1.Lines.Add(LObj.description)
 	    else
-	      Memo1.Lines.Add(TCosmoError(LProd).message);
+	      Memo1.Lines.Add(LObj.Error.message);
 	  finally
-	    LProd.DisposeOf;
+	    LObj.DisposeOf;
 	  end;
