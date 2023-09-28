@@ -9,8 +9,8 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   Demo.Home in 'Demo.Home.pas' {Form1},
-  cosmo.api in '..\src\cosmo.api.pas',
-  cosmo.classes in '..\src\cosmo.classes.pas';
+  cosmos.api in '..\src\cosmos.api.pas',
+  cosmos.classes in '..\src\cosmos.classes.pas';
 
 {$R *.res}
 

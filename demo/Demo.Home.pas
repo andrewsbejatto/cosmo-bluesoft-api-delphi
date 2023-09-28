@@ -8,14 +8,23 @@ uses
 
 type
   TForm1 = class(TForm)
-    Button1: TButton;
+    btnGtin: TButton;
     Memo1: TMemo;
-    procedure Button1Click(Sender: TObject);
+    btnGpc: TButton;
+    btnNcm: TButton;
+    btnProducts: TButton;
+    procedure btnGtinClick(Sender: TObject);
+    procedure btnGpcClick(Sender: TObject);
+    procedure btnNcmClick(Sender: TObject);
+    procedure btnProductsClick(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
   end;
+
+const
+  TOKEN = 'seu token';
 
 var
   Form1: TForm1;
@@ -24,25 +33,85 @@ implementation
 
 {$R *.fmx}
 
-uses cosmo.api, cosmo.classes;
+uses cosmos.api, cosmos.classes;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.btnGpcClick(Sender: TObject);
 begin
-  var LProd : TObject;
+  var LObj: TGpcProductsClass;
   try
-    LProd :=
-      TCosmoApi
+    LObj :=
+      TCosmosApi
         .New
-        .Token('MT5ji0bEPr26AdHQcDrvUQ')
-        .Gtins('7896084101183');
+        .Token(TOKEN)
+        .Gpc('10000161');
 
-    if LProd is TProductClass then
-      Memo1.Lines.Add(TProductClass(LProd).description)
+    if not Assigned(LObj.Error) then
+      Memo1.Lines.Add(LObj.portuguese)
     else
-      Memo1.Lines.Add(TCosmoError(LProd).message);
+      Memo1.Lines.Add(LObj.Error.message);
 
   finally
-    LProd.DisposeOf;
+    LObj.DisposeOf;
+  end;
+end;
+
+procedure TForm1.btnGtinClick(Sender: TObject);
+begin
+  var LObj : TProductClass;
+  try
+    LObj :=
+      TCosmosApi
+        .New
+        .Token(TOKEN)
+        .Gtin('7896084101183');
+
+    if not Assigned(LObj.Error) then
+      Memo1.Lines.Add(LObj.description)
+    else
+      Memo1.Lines.Add(LObj.Error.message);
+
+  finally
+    LObj.DisposeOf;
+  end;
+end;
+
+procedure TForm1.btnNcmClick(Sender: TObject);
+begin
+  var LObj : TNcmProductsClass;
+  try
+    LObj :=
+      TCosmosApi
+        .New
+        .Token(TOKEN)
+        .Ncm('04061010');
+
+    if not Assigned(LObj.Error) then
+      Memo1.Lines.Add(LObj.full_description)
+    else
+      Memo1.Lines.Add(LObj.Error.message);
+
+  finally
+    LObj.DisposeOf;
+  end;
+end;
+
+procedure TForm1.btnProductsClick(Sender: TObject);
+begin
+  var LObj : TProductsClass;
+  try
+    LObj :=
+      TCosmosApi
+        .New
+        .Token(TOKEN)
+        .Products('Bolacha');
+
+    if not Assigned(LObj.Error) then
+      Memo1.Lines.Add(LObj.total_count.ToString)
+    else
+      Memo1.Lines.Add(LObj.Error.message);
+
+  finally
+    LObj.DisposeOf;
   end;
 end;
 

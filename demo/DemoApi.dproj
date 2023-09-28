@@ -266,8 +266,8 @@
             <Form>Form1</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="..\src\cosmo.api.pas"/>
-        <DCCReference Include="..\src\cosmo.classes.pas"/>
+        <DCCReference Include="..\src\cosmos.api.pas"/>
+        <DCCReference Include="..\src\cosmos.classes.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

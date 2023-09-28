@@ -8,12 +8,12 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
-  object Button1: TButton
-    Position.X = 32.000000000000000000
-    Position.Y = 24.000000000000000000
+  object btnGtin: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 8.000000000000000000
     TabOrder = 0
-    Text = 'Button1'
-    OnClick = Button1Click
+    Text = 'Gtin'
+    OnClick = btnGtinClick
   end
   object Memo1: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
@@ -26,5 +26,26 @@ object Form1: TForm1
     TabOrder = 2
     Viewport.Width = 636.000000000000000000
     Viewport.Height = 380.000000000000000000
+  end
+  object btnGpc: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 38.000000000000000000
+    TabOrder = 4
+    Text = 'Gpc'
+    OnClick = btnGpcClick
+  end
+  object btnNcm: TButton
+    Position.X = 96.000000000000000000
+    Position.Y = 8.000000000000000000
+    TabOrder = 5
+    Text = 'Ncm'
+    OnClick = btnNcmClick
+  end
+  object btnProducts: TButton
+    Position.X = 96.000000000000000000
+    Position.Y = 38.000000000000000000
+    TabOrder = 6
+    Text = 'Products'
+    OnClick = btnProductsClick
   end
 end

@@ -1,10 +1,25 @@
-unit cosmo.classes;
+unit cosmos.classes;
 
 interface
 
 uses Generics.Collections;
 
 type
+  TCosmosError = class
+    private
+      FMessage: String;
+    public
+      property &message: String read FMessage write FMessage;
+      constructor Create(AValue: String); overload;
+  end;
+
+  TCosmosClass = class
+    private
+      FError: TCosmosError;
+    public
+      property Error: TCosmosError read FError write FError;
+      destructor Destroy; override;
+  end;
 
   TNcmClass = class
   private
@@ -59,7 +74,16 @@ type
     property description: String read FDescription write FDescription;
   end;
 
-  TProductClass = class
+  TBrandClass = class
+  private
+    FName: String;
+    FPicture: String;
+  public
+    property name: String read FName write FName;
+    property picture: String read FPicture write FPicture;
+  end;
+
+  TProductClass = class(TCosmosClass)
   private
     FAvg_price: Extended;
     FBarcode_image: String;
@@ -78,6 +102,7 @@ type
     FCest: TCestClass;
     FGpc: TGpcClass;
     FHeight: Extended;
+    FBrand: TBrandClass;
   public
     property avg_price: Extended read FAvg_price write FAvg_price;
     property barcode_image: String read FBarcode_image write FBarcode_image;
@@ -96,47 +121,56 @@ type
     property height: Extended read FHeight write FHeight;
     property length: Extended read FLength write FLength;
     property width: Extended read FWidth write FWidth;
+    property brand: TBrandClass read FBrand write FBrand;
     constructor Create;
     destructor Destroy; override;
   end;
 
-  TGpcProductsClass = class
+  TGeneralClass = class(TCosmosClass)
   private
     FCode: String;
     FCurrent_page: Extended;
-    FEnglish_description: String;
-    FId: Extended;
-    FLevel: Extended;
     FNext_page: String;
-    FParent_id: Extended;
     FPer_page: Extended;
-    FPortuguese: String;
     FProducts: TArray<TProductClass>;
     FTotal_count: Extended;
     FTotal_pages: Extended;
   public
     property code: String read FCode write FCode;
     property current_page: Extended read FCurrent_page write FCurrent_page;
-    property english_description: String read FEnglish_description write FEnglish_description;
-    property id: Extended read FId write FId;
-    property level: Extended read FLevel write FLevel;
     property next_page: String read FNext_page write FNext_page;
-    property parent_id: Extended read FParent_id write FParent_id;
     property per_page: Extended read FPer_page write FPer_page;
-    property portuguese: String read FPortuguese write FPortuguese;
     property products: TArray<TProductClass> read FProducts write FProducts;
     property total_count: Extended read FTotal_count write FTotal_count;
     property total_pages: Extended read FTotal_pages write FTotal_pages;
     destructor Destroy; override;
   end;
 
-  TCosmoError = class
-    private
-      FMessage: String;
-    public
-      property &message: String read FMessage write FMessage;
-      constructor Create(AValue: String); overload;
+  TGpcProductsClass = class(TGeneralClass)
+  private
+    FEnglish_description: String;
+    FId: Extended;
+    FLevel: Extended;
+    FParent_id: Extended;
+    FPortuguese: String;
+  public
+    property english_description: String read FEnglish_description write FEnglish_description;
+    property id: Extended read FId write FId;
+    property level: Extended read FLevel write FLevel;
+    property parent_id: Extended read FParent_id write FParent_id;
+    property portuguese: String read FPortuguese write FPortuguese;
   end;
+
+  TNcmProductsClass = class(TGeneralClass)
+  private
+    FDescription: String;
+    FFull_description: String;
+  public
+    property description: String read FDescription write FDescription;
+    property full_description: String read FFull_description write FFull_description;
+  end;
+
+  TProductsClass = class(TGeneralClass);
 
 implementation
 
@@ -173,27 +207,33 @@ begin
   FGpc.free;
   FNcm.free;
   FCest.free;
+  FBrand.Free;
   inherited;
 end;
 
-{ TGpcProductsClass }
+{ TCosmosError }
 
-destructor TGpcProductsClass.Destroy;
-var
-  LproductsItem: TProductClass;
-begin
-
- for LproductsItem in FProducts do
-   LproductsItem.free;
-  inherited;
-end;
-
-{ TCosmoError }
-
-constructor TCosmoError.Create(AValue: String);
+constructor TCosmosError.Create(AValue: String);
 begin
   inherited Create;
   FMessage := AValue;
+end;
+
+{ TCosmosClass }
+
+destructor TCosmosClass.Destroy;
+begin
+  FError.Free;
+  inherited;
+end;
+
+{ TGeneralClass }
+
+destructor TGeneralClass.Destroy;
+begin
+  for var LproductsItem in FProducts do
+    LproductsItem.free;
+  inherited;
 end;
 
 end.
